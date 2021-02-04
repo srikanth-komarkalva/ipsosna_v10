@@ -38,7 +38,7 @@ view: tbl_output_datasheet {
 
   dimension: country_code {
     group_label: "Demographic Fields"
-    hidden: yes
+    # hidden: yes
     type: string
     sql: ${TABLE}.countryCode ;;
   }
@@ -129,6 +129,29 @@ view: tbl_output_datasheet {
     type: number
     hidden: yes
     sql: ${TABLE}.metricOrder ;;
+  }
+
+  dimension: metric_code_label {
+    type: string
+    group_label: "For Developers"
+    case: {
+      when: {
+        sql: ${TABLE}.metricCode = "Q2" ;;
+        label: "Awareness (Q2)"
+      }
+      when: {
+        sql: ${TABLE}.metricCode = "Q3" ;;
+        label: "Consideration (Q3)"
+      }
+      when: {
+        sql: ${TABLE}.metricCode = "Q4" ;;
+        label: "Intent (Q4)"
+      }
+      when: {
+        sql: ${TABLE}.metricCode = "Q4_TRUST" ;;
+        label: "Trust (Q4)"
+      }
+    }
   }
 
   dimension: os_brand_code {
@@ -309,7 +332,7 @@ view: tbl_output_datasheet {
 
   dimension: header_title {
     label: "Title USAT"
-    group_label: "Developer Fields (not for use)"
+    group_label: "For Developers"
     type: string
     sql: ${time_period_label} ;;
     html:
@@ -325,7 +348,7 @@ view: tbl_output_datasheet {
 
   dimension: header_title_1 {
     label: "Title Trust"
-    group_label: "Developer Fields (not for use)"
+    group_label: "For Developers"
     type: string
     sql: ${time_period_label} ;;
     html:
@@ -341,7 +364,7 @@ view: tbl_output_datasheet {
 
   dimension: header_title_2 {
     label: "Title Feature Awareness"
-    group_label: "Developer Fields (not for use)"
+    group_label: "For Developers"
     type: string
     sql: ${time_period_label} ;;
     html:
@@ -357,7 +380,7 @@ view: tbl_output_datasheet {
 
   dimension: header_title_3 {
     label: "Title Staple Attributes"
-    group_label: "Developer Fields (not for use)"
+    group_label: "For Developers"
     type: string
     sql: ${time_period_label} ;;
     html:
@@ -374,7 +397,7 @@ view: tbl_output_datasheet {
 
   dimension: header_title_4 {
     label: "Title Marketing Funnel"
-    group_label: "Developer Fields (not for use)"
+    group_label: "For Developers"
     type: string
     sql: ${time_period_label} ;;
     html:
@@ -391,7 +414,7 @@ view: tbl_output_datasheet {
 
   dimension: header_title_5 {
     label: "Title Barriers"
-    group_label: "Developer Fields (not for use)"
+    group_label: "For Developers"
     type: string
     sql: ${time_period_label} ;;
     html:
@@ -408,7 +431,7 @@ view: tbl_output_datasheet {
 
   dimension: header_title_6 {
     label: "Title Features Trend"
-    group_label: "Developer Fields (not for use)"
+    group_label: "For Developers"
     type: string
     sql: ${time_period_label} ;;
     html:
@@ -425,7 +448,7 @@ view: tbl_output_datasheet {
 
   dimension: header_title_7 {
     label: "Title Usage Personality"
-    group_label: "Developer Fields (not for use)"
+    group_label: "For Developers"
     type: string
     sql: ${time_period_label} ;;
     html:
@@ -442,7 +465,7 @@ view: tbl_output_datasheet {
 
   dimension: header_title_8 {
     label: "Title Brand Funnel"
-    group_label: "Developer Fields (not for use)"
+    group_label: "For Developers"
     type: string
     sql: ${time_period_label} ;;
     html:
@@ -459,7 +482,7 @@ view: tbl_output_datasheet {
 
   dimension: header_title_9 {
     label: "Title Top Metrics"
-    group_label: "Developer Fields (not for use)"
+    group_label: "For Developers"
     type: string
     sql: ${time_period_label} ;;
     html:
