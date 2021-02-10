@@ -18,6 +18,7 @@ explore: tbl_output_datasheet {
     view_label: "Google Pay Explore"
     relationship: one_to_one
     type: inner
-    sql_on: ${rldeav_filter1.demo_code} = ${tbl_output_datasheet.demo_code} ;;
+    sql_on: ${rldeav_filter1.demo_code} = ${tbl_output_datasheet.demo_code} AND
+            ${rldeav_filter1.time_period_label} = ${tbl_output_datasheet.time_period_label};;
   }
   }

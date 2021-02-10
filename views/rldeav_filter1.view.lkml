@@ -1,9 +1,42 @@
 view: rldeav_filter1 {
   label: "EAV Filter view 1"
   derived_table: {
-    sql: SELECT distinct metricID,metricCode,metricLabel,metricOrder,responseCode,responseLabel,responseOrder,
-          demoCode,cast('2000-01-01' as date) from `mgcp-1192365-ipsos-gbht-srf617.GPay_Dataset.tblOutputDatasheet`
+    sql: SELECT metricCode,metricLabel,metricOrder,
+                responseCode,responseLabel,responseOrder,
+                timePeriodLabel,timePeriodOrder,
+                brandLabel,brandOrder,
+                countryCode,countryLabel,
+                demoCode,
+                cast('2000-01-01' as date) from `mgcp-1192365-ipsos-gbht-srf617.GPay_Dataset.tblOutputDatasheet`
        ;;
+  }
+
+  dimension: time_period_label {
+    label: "Wave"
+    group_label: "Demographic Fields"
+    type: string
+    order_by_field: time_period_order
+    sql: ${TABLE}.timePeriodLabel ;;
+  }
+
+  dimension: time_period_order {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.timePeriodOrder ;;
+  }
+
+  dimension: country_code {
+    group_label: "Demographic Fields"
+    hidden: yes
+    type: string
+    sql: ${TABLE}.countryCode ;;
+  }
+
+  dimension: country_label {
+    label: "Country 1"
+    group_label: "Demographic Fields"
+    type: string
+    sql: ${TABLE}.countryLabel ;;
   }
 
   dimension: demo_code {
@@ -14,27 +47,27 @@ view: rldeav_filter1 {
     sql: ${TABLE}.demoCode ;;
   }
 
-  # dimension: brand_label {
-  #   label: "Brand 1"
-  #   group_label: "Filter Dimensions set 1"
-  #   type: string
-  #   order_by_field: brand_order
-  #   sql: ${TABLE}.brandLabel ;;
-  # }
+  dimension: brand_label {
+    label: "Brand 1"
+    group_label: "Filter Dimensions set 1"
+    type: string
+    order_by_field: brand_order
+    sql: ${TABLE}.brandLabel ;;
+  }
 
-  # dimension: brand_order {
-  #   group_label: "Filter Dimensions set 1"
-  #   hidden: yes
-  #   type: number
-  #   sql: ${TABLE}.brandOrder ;;
-  # }
-
-  dimension: metric_id {
+  dimension: brand_order {
     group_label: "Filter Dimensions set 1"
     hidden: yes
     type: number
-    sql: ${TABLE}.metricID ;;
+    sql: ${TABLE}.brandOrder ;;
   }
+
+  # dimension: metric_id {
+  #   group_label: "Filter Dimensions set 1"
+  #   hidden: yes
+  #   type: number
+  #   sql: ${TABLE}.metricID ;;
+  # }
 
   dimension: metric_code {
     group_label: "Filter Dimensions set 1"

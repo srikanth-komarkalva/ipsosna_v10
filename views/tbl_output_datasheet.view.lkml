@@ -226,13 +226,50 @@ view: tbl_output_datasheet {
     group_label: "Question Information"
     order_by_field: response_order
     sql: ${TABLE}.responseLabel ;;
+    html: <p style="font-size:90%;word-wrap:break-word;text-align:right;justify-content: center">{{ rendered_value }}</p> ;;
   }
 
   dimension: response_order {
     group_label: "Question Information"
-    hidden: yes
+    # hidden: yes
     type: number
     sql: ${TABLE}.responseOrder ;;
+  }
+
+  dimension: response_label_custom {
+    group_label: "For Developers"
+    type: string
+    sql: case ${response_label}
+                WHEN 'Extremely satisfied' THEN 'Extremely / Moderately satisfied'
+                WHEN 'Moderately satisfied' THEN 'Extremely / Moderately satisfied'
+                WHEN 'More than once a day' THEN 'Use Google Pay at least once per day'
+                WHEN 'About once a day' THEN 'Use Google Pay at least once per day'
+                WHEN 'A few times a week' THEN 'Use Google Pay at least once per week'
+                WHEN 'About once a week' THEN 'Use Google Pay at least once per week'
+                WHEN 'A few times a month' THEN 'Use Google Pay monthly or less often'
+                WHEN 'Once a month or less often' THEN 'Use Google Pay monthly or less often'
+                ELSE ${response_label}
+                END;;
+  }
+
+  dimension: response_label_custom_1 {
+    group_label: "For Developers"
+    type: string
+    sql: case ${response_label}
+                WHEN 'Slightly satisfied' THEN 'Slightly/Neither/Extremely dissatisfied'
+                WHEN 'Neither satisfied nor dissatisfied' THEN 'Slightly/Neither/Extremely dissatisfied'
+                WHEN 'Slightly dissatisfied' THEN 'Slightly/Neither/Extremely dissatisfied'
+                WHEN 'Moderately dissatisfied' THEN 'Slightly/Neither/Extremely dissatisfied'
+                WHEN 'Extremely dissatisfied' THEN 'Slightly/Neither/Extremely dissatisfied'
+
+                WHEN 'More than once a day' THEN 'Use Google Pay at least once per day'
+                WHEN 'About once a day' THEN 'Use Google Pay at least once per day'
+                WHEN 'A few times a week' THEN 'Use Google Pay at least once per week'
+                WHEN 'About once a week' THEN 'Use Google Pay at least once per week'
+                WHEN 'A few times a month' THEN 'Use Google Pay monthly or less often'
+                WHEN 'Once a month or less often' THEN 'Use Google Pay monthly or less often'
+                ELSE ${response_label}
+                END;;
   }
 
   dimension: row_type {
@@ -495,6 +532,41 @@ view: tbl_output_datasheet {
     </div>
     </body>
     ;;
+  }
+
+  dimension: looker_image {
+    label: "Brand"
+    group_label: "Developer Fields (not for use)"
+    type: string
+    sql: ${TABLE}.responseLabel;;
+    html:
+    {% if value == 'Google Pay' or value == 'Gpay' %}
+         <p><img src="https://pay.google.com/about/static_kcs/images/logos/google-pay-logo.svg" height=50 width=50></p>
+      {% elsif value == 'NET: Google Pay [original and billfold logos]' %}
+        <p><img src="https://pay.google.com/about/static_kcs/images/logos/google-pay-logo.svg" height=50 width=50 ></p>
+      {% elsif value == 'Amazon Pay' %}
+        <p><img src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/032018/untitled-1_160.png" height=50 width=50 ></p>
+      {% elsif value == 'BHIM UPI' or value == 'BHIM / UPI' %}
+        <p><img src="https://sutrashome.files.wordpress.com/2019/04/bhim.jpg" height=30 width=50></p>
+      {% elsif value == 'Samsung Pay' %}
+        <p><img src="https://securecdn.pymnts.com/wp-content/uploads/2020/01/Screen-Shot-2020-01-31-at-3.54.58-PM.png" height=30 width=50></p>
+      {% elsif value == 'Mastercard Masterpass' %}
+        <p><img src="https://www.pymnts.com/wp-content/uploads/2016/09/Mastercard-Digital-.png" height=30 width=50></p>
+      {% elsif value == 'Visa Checkout' %}
+        <p><img src="https://www.merchant-accounts.ca/pics/VisaCheckoutLogo.jpg" height=30 width=50></p>
+      {% elsif value == 'Airtel Payments Bank' %}
+        <p><img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Airtel_payments_bank_logo.jpg" height=30 width=50></p>
+      {% elsif value == 'HDFC PayZapp' %}
+        <p><img src="https://s3.amazonaws.com/zaubatrademarks/49a573c7-b5d5-4edc-8f5e-7791dba1c3f8.png" height=30 width=50></p>
+      {% elsif value == 'WhatsApp Pay' %}
+        <p><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" height=30 width=50></p>
+      {% elsif value == 'JioMoney' %}
+        <p><img src="https://avatars0.githubusercontent.com/u/30654090?s=460&u=4992d663f76ee28a85b20f447b83c2856d06bad6&v=4" height=50 width=50></p>
+      {% elsif value == 'Tez' %}
+        <p><img src="https://icon2.cleanpng.com/20180328/zze/kisspng-tez-unified-payments-interface-google-apps-5abb75dc86eca2.9888044115222348445527.jpg" height=30 width=30></p>
+      {% else %}
+        <p><img src="https://logo-core.clearbit.com/{{response_label}}.com" height=30 width=50 /></p>
+      {% endif %} ;;
   }
 
   measure: un_wt_base {
