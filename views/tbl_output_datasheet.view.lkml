@@ -236,6 +236,27 @@ view: tbl_output_datasheet {
     sql: ${TABLE}.responseOrder ;;
   }
 
+  dimension: response_label_order {
+    group_label: "For Developers"
+    type: number
+    sql:
+    CASE ${response_label}
+    WHEN 'Not sure' THEN 12
+    WHEN 'Pay at a local store (including QR code)' THEN 6
+    WHEN 'Pay on apps and/or websites (e.g. food delivery, cabs/taxi, movies, travel)' THEN 7
+    WHEN 'Earn rewards, scratch cards or discounts' THEN 4
+    WHEN 'Pay for daily transportation (e.g. bus, auto, metro)' THEN 9
+    WHEN 'Transfer money to other people (e.g. splitting a bill)' THEN 3
+    WHEN 'Pay monthly bills (e.g. electricity, DTH, gas, water, FASTag)' THEN 2
+    WHEN 'Recharge their mobile' THEN 1
+    WHEN 'Book train tickets on IRCTC' THEN 8
+    WHEN 'Buy and sell gold' THEN 11
+    WHEN 'Pay to any bank account, even those not with the same app' THEN 5
+    WHEN 'Pay for petrol/diesel' THEN 10
+    END
+    ;;
+  }
+
   dimension: response_label_custom {
     group_label: "For Developers"
     type: string
@@ -536,7 +557,7 @@ view: tbl_output_datasheet {
 
   dimension: looker_image {
     label: "Brand"
-    group_label: "Developer Fields (not for use)"
+    group_label: "For Developers"
     type: string
     sql: ${TABLE}.responseLabel;;
     html:
