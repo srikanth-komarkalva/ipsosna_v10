@@ -220,6 +220,53 @@ view: tbl_output_datasheet {
     sql: ${TABLE}.responseCode ;;
   }
 
+  dimension: response_label_subnets {
+    label: "Response Label"
+    description: "To be used for Subnets"
+    group_label: "For Developers"
+    type: string
+    sql:
+    CASE ${response_label}
+    WHEN 'Google Pay' THEN 'GOOGLE PAY (SUB-SUBNET)'
+    WHEN 'Gpay' THEN 'GOOGLE PAY (SUB-SUBNET)'
+    WHEN 'BHIM UPI' THEN 'BHIM/UPI (NET)'
+    WHEN 'BHIM / UPI' THEN 'BHIM/UPI (NET)'
+    WHEN 'Jio' THEN 'JIO (NET)'
+    WHEN 'JioMoney' THEN 'JIO (NET)'
+    ELSE
+    ${response_label}
+    END
+    ;;
+  }
+
+  dimension: response_label_staples {
+    group_label: "Developer Fields (not for use)"
+    type: number
+    sql:
+    CASE ${response_label}
+    WHEN 'Google Pay' THEN 1
+    WHEN 'Gpay' THEN 1
+    WHEN 'GOOGLE PAY (SUB-SUBNET)' THEN 1
+    WHEN 'Paytm' THEN 2
+    WHEN 'PhonePe' THEN 3
+    WHEN 'PayPal' THEN 4
+    WHEN 'Amazon Pay' THEN 5
+    WHEN 'Mobikwik' THEN 6
+    WHEN 'BHIM / UPI' THEN 7
+    WHEN 'BHIM UPI' THEN 7
+    WHEN 'BHIM/UPI(NET)' THEN 7
+    WHEN 'Airtel Payments Bank' THEN 8
+    WHEN 'HDFC PayZapp' THEN 9
+    WHEN 'WhatsApp Pay' THEN 10
+    WHEN 'Jio' THEN 11
+    WHEN 'JioMoney' THEN 11
+    WHEN 'JIO(NET)' THEN 11
+    ELSE
+    0
+    END
+    ;;
+  }
+
   dimension: response_label {
     type: string
     label: "Response Label"
@@ -564,6 +611,8 @@ view: tbl_output_datasheet {
     {% if value == 'Google Pay' or value == 'Gpay' %}
          <p><img src="https://pay.google.com/about/static_kcs/images/logos/google-pay-logo.svg" height=50 width=50></p>
       {% elsif value == 'NET: Google Pay [original and billfold logos]' %}
+        <p><img src="https://pay.google.com/about/static_kcs/images/logos/google-pay-logo.svg" height=50 width=50 ></p>
+      {% elsif value == 'Google Pay(Original)' %}
         <p><img src="https://pay.google.com/about/static_kcs/images/logos/google-pay-logo.svg" height=50 width=50 ></p>
       {% elsif value == 'Amazon Pay' %}
         <p><img src="https://d1yjjnpx0p53s8.cloudfront.net/styles/logo-thumbnail/s3/032018/untitled-1_160.png" height=50 width=50 ></p>
