@@ -485,24 +485,18 @@ view: tbl_output_datasheet {
       html:
           {% if value == 1 %}
           <p style="color: black; background-color: lightgreen; font-size:100%; text-align:center">{{ 'Increase' }}
-          <img src="https://www.pinclipart.com/picdir/big/106-1068494_green-fire-png-www-imgkid-com-the-image.png"
-          style="width:10px;height:10px;float:right;display:inline-block;white-space: nowrap">
           </p>
           {% elsif value == -1 %}
           <p style="color: black; background-color: tomato; font-size:100%; text-align:center">{{ 'Decrease' }}
-          <img src="https://www.pinclipart.com/picdir/big/100-1008699_clipart-shapes-triangle-red-arrow-down-png-download.png"
-          style="width:10px;height:10px;float:right;display:inline-block;white-space: nowrap">
+
           </p>
           {% elsif value == 0 %}
           <p style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ 'No change' }}
-          <a href="https://icon-library.net/icon/no-change-icon-0.html" title="No Change Icon #285813">
-          <img src="https://www.flaticon.com/svg/static/icons/svg/54/54771.svg"
-          style="width:10px;height:10px;float:right;display:inline-block;white-space: nowrap"></a>
+
           </p>
           {% elsif value == 2 %}
           <p style="color: black; background-color: lightgrey; font-size:100%; text-align:center">{{ 'N/A' }}
-          <img src="https://cdn3.iconfinder.com/data/icons/meteocons/512/n-a-512.png"
-          style="width:15px;height:15px;float:right;display:inline-block;white-space: nowrap">
+
           </p>
           {% endif %} ;;
     }
