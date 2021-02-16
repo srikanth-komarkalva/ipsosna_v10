@@ -342,7 +342,7 @@ view: tbl_output_datasheet {
   }
 
   dimension: response_label_staples {
-    group_label: "Developer Fields (not for use)"
+    group_label: "For Developers"
     type: number
     sql:
     CASE ${response_label}
@@ -463,13 +463,13 @@ view: tbl_output_datasheet {
   dimension: sig_test_wow {
     group_label: "Sig Test Attributes"
     type: number
-    sql: ${TABLE}.sigTestWOW ;;
+    sql: IFNULL(${TABLE}.sigTestWOW,2);;
   }
 
   dimension: sig_test_yoy {
     group_label: "Sig Test Attributes"
     type: number
-    sql: ${TABLE}.sigTestYOY ;;
+    sql: IFNULL(${TABLE}.sigTestYOY,2) ;;
   }
 
   dimension: sig_test_choice {
@@ -506,7 +506,7 @@ view: tbl_output_datasheet {
           </p>
           {% endif %} ;;
     }
-
+    #
     dimension: Sig_Sort {
       label: "Significance Sort"
       type: number
