@@ -194,7 +194,7 @@ view: tbl_output_datasheet {
   }
 
   dimension: metric_code {
-    label: "Question Metric"
+    label: "Metric"
     group_label: "Question Information"
     order_by_field: metric_order
     type: string
