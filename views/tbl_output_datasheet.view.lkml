@@ -2,6 +2,108 @@ view: tbl_output_datasheet {
   sql_table_name: `mgcp-1192365-ipsos-gbht-srf617.GPay_Dataset.tblOutputDatasheet`
     ;;
 
+# Parameters Section
+
+  parameter: attribute_selector1 {
+    label: "Banner Selector 1"
+    type: unquoted
+
+    allowed_value: {
+      label: "Brand"
+      value: "brandLabel"
+    }
+
+    allowed_value: {
+      label: "Country"
+      value: "countryCode"
+    }
+
+    allowed_value: {
+      label: "Wave"
+      value: "timePeriodLabel"
+    }
+  }
+
+  parameter: attribute_selector2 {
+    label: "Banner Selector 2"
+    type: unquoted
+
+    allowed_value: {
+      label: "Brand"
+      value: "brandLabel"
+    }
+
+    allowed_value: {
+      label: "Country"
+      value: "countryCode"
+    }
+
+    allowed_value: {
+      label: "Wave"
+      value: "timePeriodLabel"
+    }
+  }
+
+  dimension: attribute_selector1_dim {
+    group_label: "Banner Analysis"
+    label: "Banner Selector 1"
+    order_by_field: attribute_selector1_sort
+    description: "To be used with the Banner Selector filters"
+    label_from_parameter: attribute_selector1
+    sql: ${TABLE}.{% parameter attribute_selector1 %};;
+  }
+
+  dimension: attribute_selector2_dim {
+    group_label: "Banner Analysis"
+    label: "Banner Selector 2"
+    order_by_field: attribute_selector2_sort
+    description: "To be used with the Banner Selector filters"
+    label_from_parameter: attribute_selector2
+    sql: ${TABLE}.{% parameter attribute_selector2 %};;
+  }
+
+  dimension: attribute_selector1_sort {
+    hidden: yes
+    sql:
+    {% if attribute_selector1._parameter_value == 'timePeriodLabel' %}
+      ${time_period_order}
+    {% else %}
+      ${attribute_selector1_dim}
+    {% endif %};;
+  }
+
+  dimension: attribute_selector2_sort {
+    hidden: yes
+    sql:
+    {% if attribute_selector2._parameter_value == 'timePeriodLabel' %}
+      ${time_period_order}
+    {% else %}
+      ${attribute_selector2_dim}
+    {% endif %};;
+  }
+
+  parameter: significance_dropdown {
+    label: "Choose Significance WoW or YoY"
+    description: "Choose Significance for crosstabs"
+    type: string
+    allowed_value: {
+      label: "WoW"
+      value: "WoW"
+    }
+    allowed_value: {
+      label: "YoY"
+      value: "YoY"
+    }
+  }
+
+#Significance Filter
+  dimension: significance_dropdown_dim {
+    label: "Significance"
+    group_label: "Parameters"
+    type: string
+    sql: {% parameter significance_dropdown  %};;
+  }
+
   dimension: base_label {
     group_label: "Question Information"
     type: string
@@ -370,6 +472,55 @@ view: tbl_output_datasheet {
     sql: ${TABLE}.sigTestYOY ;;
   }
 
+  dimension: sig_test_choice {
+    label: "Significance Dim"
+    type: string
+    group_label: "Sig Test Attributes"
+    sql:
+    CASE ${significance_dropdown_dim}
+    WHEN "WoW" THEN ${sig_test_wow}
+    WHEN "YoY" THEN ${sig_test_yoy}
+    END ;;
+
+      html:
+          {% if value == 1 %}
+          <p style="color: black; background-color: lightgreen; font-size:100%; text-align:center">{{ 'Increase' }}
+          <img src="https://www.pinclipart.com/picdir/big/106-1068494_green-fire-png-www-imgkid-com-the-image.png"
+          style="width:10px;height:10px;float:right;display:inline-block;white-space: nowrap">
+          </p>
+          {% elsif value == -1 %}
+          <p style="color: black; background-color: tomato; font-size:100%; text-align:center">{{ 'Decrease' }}
+          <img src="https://www.pinclipart.com/picdir/big/100-1008699_clipart-shapes-triangle-red-arrow-down-png-download.png"
+          style="width:10px;height:10px;float:right;display:inline-block;white-space: nowrap">
+          </p>
+          {% elsif value == 0 %}
+          <p style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ 'No change' }}
+          <a href="https://icon-library.net/icon/no-change-icon-0.html" title="No Change Icon #285813">
+          <img src="https://www.flaticon.com/svg/static/icons/svg/54/54771.svg"
+          style="width:10px;height:10px;float:right;display:inline-block;white-space: nowrap"></a>
+          </p>
+          {% elsif value == 2 %}
+          <p style="color: black; background-color: lightgrey; font-size:100%; text-align:center">{{ 'N/A' }}
+          <img src="https://cdn3.iconfinder.com/data/icons/meteocons/512/n-a-512.png"
+          style="width:15px;height:15px;float:right;display:inline-block;white-space: nowrap">
+          </p>
+          {% endif %} ;;
+    }
+
+    dimension: Sig_Sort {
+      label: "Significance Sort"
+      type: number
+      group_label: "Sig Test Attributes"
+      sql:
+          CASE ${sig_test_choice}
+          WHEN 1 THEN 1
+          WHEN -1 THEN 3
+          WHEN 0 THEN 2
+          ELSE 4
+          END ;;
+    }
+
+
   dimension: change_wow {
     group_label: "Sig Test Attributes"
     type: number
@@ -693,5 +844,83 @@ view: tbl_output_datasheet {
     label: "Weighted Percent (original)"
     value_format_name: percent_0
     sql: (${TABLE}.wtMetric)/100 ;;
+  }
+
+  measure: Weighted_Pct_Crosstab {
+    label: "Weighted Percent"
+    group_label: "For Developers"
+    description: "Weighted % for Crosstab report"
+    type: number
+    value_format_name: percent_0
+    sql: ${wt_count}/NULLIF(${wt_base},0) ;;
+    html:
+    {% if significance_dropdown_dim._rendered_value == 'WoW' and stat_result._value == 1 %}
+    <p style="color: black; background-color: lightgreen; font-size:100%; text-align:center">{{rendered_value}}</p>
+
+    {% elsif significance_dropdown_dim._rendered_value == 'WoW' and stat_result._value == -1 %}
+    <p style="color: black; background-color: tomato; font-size:100%; text-align:center">{{rendered_value}}</p>
+
+    {% elsif significance_dropdown_dim._rendered_value == 'WoW' and stat_result._value == 0 %}
+    <p style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{rendered_value}}</p>
+
+    {% elsif significance_dropdown_dim._rendered_value == 'WoW' and stat_result._value == 2 %}
+    <p style="color: black; background-color: lightgrey; font-size:100%; text-align:center">{{rendered_value}}</p>
+
+    {% elsif significance_dropdown_dim._rendered_value == 'YoY' and stat_result._value == 1 %}
+    <p style="color: black; background-color: lightgreen; font-size:100%; text-align:center">{{rendered_value}}</p>
+
+    {% elsif significance_dropdown_dim._rendered_value == 'YoY' and stat_result._value == -1 %}
+    <p style="color: black; background-color: tomato; font-size:100%; text-align:center">{{rendered_value}}</p>
+
+    {% elsif significance_dropdown_dim._rendered_value == 'YoY' and stat_result._value == 0 %}
+    <p style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{rendered_value}}</p>
+
+    {% elsif significance_dropdown_dim._rendered_value == 'YoY' and stat_result._value == 2 %}
+    <p style="color: black; background-color: lightgrey; font-size:100%; text-align:center">{{rendered_value}}</p>
+
+    {% elsif stat_result._value == 2 %}
+    <p style="color: black; font-size:100%; text-align:center">{{rendered_value}}</p>
+
+    (% else %}
+    Weighted Pct: {{wt_percent._value}}
+
+    {% endif %}
+    ;;
+  }
+
+  measure: stat_result {
+    label: "Significance"
+    group_label: "For Developers"
+    type: sum
+    sql:
+    CASE ${significance_dropdown_dim}
+    WHEN "WoW" THEN
+    (     CASE IFNULL(${sig_test_wow},2)
+          WHEN 1 THEN 1
+          WHEN -1 THEN -1
+          WHEN 0 THEN 0
+          WHEN NULL THEN 2
+          ELSE 2
+          END)
+    WHEN "YoY" THEN
+    (     CASE IFNULL(${sig_test_yoy},2)
+          WHEN 1 THEN 1
+          WHEN -1 THEN -1
+          WHEN 0 THEN 0
+          WHEN NULL THEN 2
+          ELSE 2
+          END)
+    ELSE 2
+    END ;;
+    html:
+    {% if value == 1 %}
+    <p style="color: black; font-size:100%; text-align:center">{{ 'Increase' }}</p>
+    {% elsif value == -1 %}
+    <p style="color: black; font-size:100%; text-align:center">{{ 'Decrease' }}</p>
+    {% elsif value == 0 %}
+    <p style="color: black; font-size:100%; text-align:center">{{ 'No change' }}</p>
+    {% elsif value == 2 %}
+    <p style="color: black; font-size:100%; text-align:center">{{ 'N/A' }}</p>
+    {% endif %} ;;
   }
 }
