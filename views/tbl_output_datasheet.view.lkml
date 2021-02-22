@@ -15,7 +15,7 @@ view: tbl_output_datasheet {
 
     allowed_value: {
       label: "Country"
-      value: "countryCode"
+      value: "countryLabel"
     }
 
     allowed_value: {
@@ -35,7 +35,7 @@ view: tbl_output_datasheet {
 
     allowed_value: {
       label: "Country"
-      value: "countryCode"
+      value: "countryLabel"
     }
 
     allowed_value: {
