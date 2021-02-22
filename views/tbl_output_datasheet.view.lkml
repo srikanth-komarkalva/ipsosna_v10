@@ -160,12 +160,12 @@ view: tbl_output_datasheet {
     sql: ${TABLE}.countryOrder ;;
   }
 
-  dimension: demo_code {
-    group_label: "Demographic Fields"
-    type: string
-    order_by_field: demo_order
-    sql: ${TABLE}.demoCode ;;
-  }
+  # dimension: demo_code {
+  #   group_label: "Demographic Fields"
+  #   type: string
+  #   order_by_field: demo_order
+  #   sql: ${TABLE}.demoCode ;;
+  # }
 
   dimension: demo_color_hex_code {
     hidden: yes
