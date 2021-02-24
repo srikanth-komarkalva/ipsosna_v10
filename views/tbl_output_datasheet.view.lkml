@@ -560,6 +560,70 @@ view: tbl_output_datasheet {
     sql: ${TABLE}.timePeriodLabel ;;
   }
 
+  dimension: wave_year {
+    hidden: yes
+    group_label: "Demographic Fields"
+    type: number
+    sql: CAST(SUBSTR(${time_period_label},5,4) AS INT64);;
+  }
+
+  dimension: wave_month_part {
+    hidden: yes
+    group_label: "Demographic Fields"
+    type: string
+    sql: SUBSTR(${time_period_label},1,3);;
+  }
+
+  dimension: wave_month {
+    hidden: yes
+    group_label: "Demographic Fields"
+    type: number
+    sql: CAST(
+          CASE ${wave_month_part}
+          WHEN 'Jan' THEN 1
+          WHEN 'Feb' THEN 2
+          WHEN 'Mar' THEN 3
+          WHEN 'Apr' THEN 4
+          WHEN 'May' THEN 5
+          WHEN 'Jun' THEN 6
+          WHEN 'Jul' THEN 7
+          WHEN 'Aug' THEN 8
+          WHEN 'Sep' THEN 9
+          WHEN 'Oct' THEN 10
+          WHEN 'Nov' THEN 11
+          WHEN 'Dec' THEN 12
+          ELSE 1
+          END
+          AS INT64) ;;
+  }
+
+  dimension: wave_day_part {
+    hidden: yes
+    group_label: "Demographic Fields"
+    type: string
+    sql: SUBSTR(${time_period_label},12,2);;
+  }
+
+  dimension: wave_day {
+    hidden: yes
+    group_label: "Demographic Fields"
+    type: number
+    sql: CAST(CASE ${wave_day_part}
+          WHEN 'W1' THEN 1
+          WHEN 'W2' THEN 15
+          WHEN 'Ne' THEN 1
+          WHEN 'Pa' THEN 1
+          ELSE 1
+          END AS INT64) ;;
+  }
+
+  dimension: wave_date {
+    label: "Wave (Date)"
+    group_label: "Demographic Fields"
+    type: date
+    sql: CAST(date(${wave_year},${wave_month},${wave_day}) as TIMESTAMP) ;;
+  }
+
   dimension: time_period_order {
     hidden: yes
     type: number
