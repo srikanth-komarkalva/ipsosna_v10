@@ -1029,7 +1029,7 @@ view: tbl_output_datasheet {
   }
 
   measure: Weighted_Pct_Line_rank_brand {
-    label: "Weighted Percent with Brand Rank"
+    label: "Weighted %"
     group_label: "For Developers"
     description: "Weighted % for Trend chart with Rank by Brand"
     type: number
@@ -1110,7 +1110,7 @@ view: tbl_output_datasheet {
   }
 
   measure: Weighted_Pct_Line_rank_demo {
-    label: "Weighted Percent with demo Rank"
+    label: "Weighted %"
     group_label: "For Developers"
     description: "Weighted % for Trend chart with Rank by Demo"
     type: number
