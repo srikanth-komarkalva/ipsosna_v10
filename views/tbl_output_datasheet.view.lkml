@@ -970,14 +970,6 @@ view: tbl_output_datasheet {
     sql: ${TABLE}.effectiveBase ;;
   }
 
-  measure: Weighted_Pct {
-    label: "Weighted Percent"
-    group_label: "Weight Measures"
-    type: number
-    value_format_name: percent_0
-    sql: ${wt_count}/NULLIF(${wt_base},0) ;;
-  }
-
   measure: wt_percent {
     type: sum
     group_label: "For Developers"
@@ -992,7 +984,8 @@ view: tbl_output_datasheet {
     description: "Weighted % for Crosstab report"
     type: number
     value_format_name: percent_0
-    sql: ${wt_count}/NULLIF(${wt_base},0) ;;
+    # sql: ${wt_count}/NULLIF(${wt_base},0) ;;
+    sql: ${wt_percent} ;;
     html:
     {% if significance_dropdown_dim._rendered_value == 'WoW' and stat_result._value == 1 %}
     <p style="color: black; background-color: lightgreen; font-size:100%; text-align:center">{{rendered_value}}</p>
@@ -1034,7 +1027,7 @@ view: tbl_output_datasheet {
     description: "Weighted % for Trend chart with Rank by Brand"
     type: number
     value_format_name: percent_0
-    sql: ${wt_count}/NULLIF(round(${wt_base}),0) ;;
+    sql: ${wt_percent} ;;
     html:
 
     {% if significance_dropdown_dim._rendered_value == 'WoW' and stat_result._value == 1 %}
@@ -1115,7 +1108,7 @@ view: tbl_output_datasheet {
     description: "Weighted % for Trend chart with Rank by Demo"
     type: number
     value_format_name: percent_0
-    sql: ${wt_count}/NULLIF(round(${wt_base}),0) ;;
+    sql: ${wt_percent} ;;
     html:
     {% if significance_dropdown_dim._rendered_value == 'WoW' and stat_result._value == 1 %}
     Weighted Pct: {{rendered_value}}
