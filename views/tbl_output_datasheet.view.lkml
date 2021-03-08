@@ -1027,7 +1027,8 @@ view: tbl_output_datasheet {
     description: "Weighted % for Trend chart with Rank by Brand"
     type: number
     value_format_name: percent_0
-    sql: ${wt_percent} ;;
+    # sql: ${wt_percent} ;;
+    sql:  ${wt_count}/NULLIF(round(${wt_base}),0) ;;
     html:
 
     {% if significance_dropdown_dim._rendered_value == 'WoW' and stat_result._value == 1 %}
