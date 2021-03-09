@@ -353,7 +353,7 @@ view: tbl_output_datasheet {
     {% elsif value == 8 %}
     <p style="color: black; font-size:100%; text-align:center">{{ '(tie) 4' }}</p>
     {% elsif value == 0 %}
-    <p style="color: black; font-size:100%; text-align:center">{{ 'N/A' }}</p>
+    <p style="color: black; font-size:100%; text-align:center">{{ ' ' }}</p>
     {% endif %} ;;
     }
 
@@ -1136,7 +1136,7 @@ view: tbl_output_datasheet {
     {% elsif rank_agg_calc_brand._value == 8 %}
     <div>Brand Rank: <p style="color: white; font-size:100%; text-align:center">(tie) 4</p></div>
     {% elsif rank_agg_calc_brand._value == 0 %}
-    <div>Brand Rank: <p style="color: white; font-size:100%; text-align:center">N/A</p></div>
+    <div>Brand Rank: <p style="color: white; font-size:100%; text-align:center"></p></div>
     {% endif %}
 
     ;;
