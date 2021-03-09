@@ -286,8 +286,8 @@ view: tbl_output_datasheet {
 
   dimension: rank_brand_label {
     type: string
-    label: "Brand Rank"
-    group_label: "Rank fields"
+    label: "Rank"
+    group_label: "Question Information"
     sql: ${TABLE}.rankBrandLabel ;;
   }
 
@@ -297,27 +297,6 @@ view: tbl_output_datasheet {
     group_label: "Rank fields"
     sql: ${TABLE}.rankBrandScore ;;
   }
-
-  # dimension: rank_demo {
-  #   hidden: yes
-  #   type: number
-  #   group_label: "Rank fields"
-  #   sql: ${TABLE}.rankDemo ;;
-  # }
-
-  # dimension: rank_demo_label {
-  #   type: string
-  #   label: "Demo Rank"
-  #   group_label: "Rank fields"
-  #   sql: ${TABLE}.rankDemoLabel ;;
-  # }
-
-  # measure: rank_demo_score {
-  #   group_label: "Rank fields"
-  #   type: sum
-  #   value_format_name: decimal_1
-  #   sql: ${TABLE}.rankDemoScore ;;
-  # }
 
   measure: rank_agg_calc_brand {
     label: "Rank by Brand"
@@ -1120,23 +1099,23 @@ view: tbl_output_datasheet {
     {% endif %}
 
     {% if rank_agg_calc_brand._value == 1 %}
-    <div>Brand Rank: <p style="color: white; font-size:100%; text-align:center">1</p></div>
+    <div>Rank: <p style="color: white; font-size:100%; text-align:center">1</p></div>
     {% elsif rank_agg_calc_brand._value == 5 %}
-    <div>Brand Rank: <p style="color: white; font-size:100%; text-align:center">(tie) 1</p></div>
+    <div>Rank: <p style="color: white; font-size:100%; text-align:center">(tie) 1</p></div>
     {% elsif rank_agg_calc_brand._value == 2 %}
-    <div>Brand Rank: <p style="color: white; font-size:100%; text-align:center">2</p></div>
+    <div>Rank: <p style="color: white; font-size:100%; text-align:center">2</p></div>
     {% elsif rank_agg_calc_brand._value == 6 %}
-    <div>Brand Rank: <p style="color: white; font-size:100%; text-align:center">(tie) 2</p></div>
+    <div>Rank: <p style="color: white; font-size:100%; text-align:center">(tie) 2</p></div>
     {% elsif rank_agg_calc_brand._value == 3 %}
-    <div>Brand Rank: <p style="color: white; font-size:100%; text-align:center">3</p></div>
+    <div>Rank: <p style="color: white; font-size:100%; text-align:center">3</p></div>
     {% elsif rank_agg_calc_brand._value == 7 %}
-    <div>Brand Rank: <p style="color: white; font-size:100%; text-align:center">(tie) 3</p></div>
+    <div>Rank: <p style="color: white; font-size:100%; text-align:center">(tie) 3</p></div>
     {% elsif rank_agg_calc_brand._value == 4 %}
-    <div>Brand Rank: <p style="color: white; font-size:100%; text-align:center">4</p></div>
+    <div>Rank: <p style="color: white; font-size:100%; text-align:center">4</p></div>
     {% elsif rank_agg_calc_brand._value == 8 %}
-    <div>Brand Rank: <p style="color: white; font-size:100%; text-align:center">(tie) 4</p></div>
+    <div>Rank: <p style="color: white; font-size:100%; text-align:center">(tie) 4</p></div>
     {% elsif rank_agg_calc_brand._value == 0 %}
-    <div>Brand Rank: <p style="color: white; font-size:100%; text-align:center"></p></div>
+    <div>Rank: <p style="color: white; font-size:100%; text-align:center"></p></div>
     {% endif %}
 
     ;;
